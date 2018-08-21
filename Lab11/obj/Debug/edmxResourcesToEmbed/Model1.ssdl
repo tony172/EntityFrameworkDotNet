@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="StudentiModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Predmeti">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Naziv" Type="nchar" MaxLength="30" Nullable="false" />
+  </EntityType>
+  <EntityType Name="PredmetiStudenti">
+    <Key>
+      <PropertyRef Name="IdPredmeta" />
+      <PropertyRef Name="IdStudenta" />
+    </Key>
+    <Property Name="IdPredmeta" Type="int" Nullable="false" />
+    <Property Name="IdStudenta" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Studenti">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Ime" Type="nchar" MaxLength="20" Nullable="false" />
+    <Property Name="Prezime" Type="nchar" MaxLength="20" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_PredmetiStudenti_Predmeti">
+    <End Role="Predmeti" Type="Self.Predmeti" Multiplicity="1" />
+    <End Role="PredmetiStudenti" Type="Self.PredmetiStudenti" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Predmeti">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="PredmetiStudenti">
+        <PropertyRef Name="IdPredmeta" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PredmetiStudenti_Studenti">
+    <End Role="Studenti" Type="Self.Studenti" Multiplicity="1" />
+    <End Role="PredmetiStudenti" Type="Self.PredmetiStudenti" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Studenti">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="PredmetiStudenti">
+        <PropertyRef Name="IdStudenta" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="StudentiModelStoreContainer">
+    <EntitySet Name="Predmeti" EntityType="Self.Predmeti" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="PredmetiStudenti" EntityType="Self.PredmetiStudenti" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Studenti" EntityType="Self.Studenti" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_PredmetiStudenti_Predmeti" Association="Self.FK_PredmetiStudenti_Predmeti">
+      <End Role="Predmeti" EntitySet="Predmeti" />
+      <End Role="PredmetiStudenti" EntitySet="PredmetiStudenti" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PredmetiStudenti_Studenti" Association="Self.FK_PredmetiStudenti_Studenti">
+      <End Role="Studenti" EntitySet="Studenti" />
+      <End Role="PredmetiStudenti" EntitySet="PredmetiStudenti" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="StudentiModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Predmeti">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Naziv" Type="String" MaxLength="30" FixedLength="true" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Studentis" Relationship="Self.PredmetiStudenti" FromRole="Predmeti" ToRole="Studenti" />
+  </EntityType>
+  <EntityType Name="Studenti">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Ime" Type="String" MaxLength="20" FixedLength="true" Unicode="true" Nullable="false" />
+    <Property Name="Prezime" Type="String" MaxLength="20" FixedLength="true" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Predmetis" Relationship="Self.PredmetiStudenti" FromRole="Studenti" ToRole="Predmeti" />
+  </EntityType>
+  <Association Name="PredmetiStudenti">
+    <End Role="Predmeti" Type="Self.Predmeti" Multiplicity="*" />
+    <End Role="Studenti" Type="Self.Studenti" Multiplicity="*" />
+  </Association>
+  <EntityContainer Name="StudentiEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Predmetis" EntityType="Self.Predmeti" />
+    <EntitySet Name="Studentis" EntityType="Self.Studenti" />
+    <AssociationSet Name="PredmetiStudenti" Association="Self.PredmetiStudenti">
+      <End Role="Predmeti" EntitySet="Predmetis" />
+      <End Role="Studenti" EntitySet="Studentis" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
